@@ -1,0 +1,119 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    .g-recaptcha {
+        padding-bottom: 10px;
+    }
+</style>
+<script>
+
+
+
+    function submitToAPI(e) {
+
+        e.preventDefault();
+        var URL = "https://TODO.execute-api.us-east-1.amazonaws.com/prod/contact-us";
+        var LIST_ID = "TODOKqEYTODOXSqLA";
+        var Namere = /[A-Za-z]{1}[A-Za-z]/;
+        if (!Namere.test(jQuery("#name-input").val())) {
+            alert("Name can not less than 2 char");
+            return;
+        }
+        if (jQuery("#email-input").val() == "") {
+            alert("Please enter your email id");
+            return;
+        }
+
+
+        var name = jQuery("#name-input").val();
+        var phone = jQuery("#phone-input").val();
+        var email = jQuery("#email-input").val();
+        var desc = jQuery("#description-input").val();
+        var consent = jQuery("#consent").is(":checked");
+        var data = {
+            name: name,
+            phone: phone,
+            email: email,
+            desc: desc,
+            consent: consent,
+            list_id: LIST_ID,
+        };
+
+        jQuery.ajax({
+            type: "POST",
+            url: URL,
+            dataType: "json",
+            crossDomain: "true",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+
+
+
+            success: function () {
+                document.getElementById("contact-form").reset();
+                alert("Thank you for contacting us, we will respond in 24 to 48 hours");
+            },
+            error: function () {
+                // show an error message
+                //alert("UnSuccessfull");
+            }
+        });
+    }
+</script>
+<h3>
+    Use this form to drop us a line
+</h3>
+
+
+<form id="contact-form" method="post">
+
+
+
+
+
+    <div class="form-group">
+        <label for"name-input">Name:</label>
+        <input name="name" class="form-control" type="text" id="name-input" maxlength="100"
+            placeholder="Enter name here…" />
+    </div>
+
+    <div class="form-group">
+        <label for"phone-input">Phone:</label>
+        <input name="phone_number" class="form-control" type="text" id="phone-input" maxlength="100"
+            placeholder="Enter phone number…" />
+    </div>
+
+    <div class="form-group">
+        <label for"email-input">Email:</label>
+        <input name="phone_number" class="form-control" type="email" id="email-input" maxlength="100"
+            placeholder="Enter email here…" />
+    </div>
+
+    <div class="form-group">
+        <label for"description-input">How can we help you?</label>
+        <textarea id="description-input" class="form-control" rows="3" placeholder="Enter your message…"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label><input type="checkbox" name="consent" id="consent" checked> Please sign me up for The Clement
+            newsletter</label>
+    </div>
+
+
+
+
+    <div class="g-recaptcha" data-sitekey="6LdqKBsUAAAAAL2twbt-MyYpdgGRtMRlLhiNxpiP"></div>
+
+
+
+
+    <button type="button" onClick="submitToAPI(event)" class="btn btn-primary">Submit</button>
+
+
+
+
+
+</form>
