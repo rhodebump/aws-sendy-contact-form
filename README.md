@@ -11,3 +11,5 @@ index.js is the code for the Lambda endpoint on AWS.  This will send the contact
 1. setup AWS API gateway to point to your lambda.   Enable CORS
 1. setup AWS SES
 1. setup sendy https://sendy.co/
+
+You can see the form live at https://theclement.com/contact-us/
